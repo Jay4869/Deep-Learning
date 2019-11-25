@@ -1,5 +1,8 @@
-# Deep-Learning
+## Deep-Learning
 Residual Attention Network for Image Classification
+
+## Reference
+https://github.com/qubvel/residual_attention_network
 
 ## Schedule
 * 11/3-11/5	understanding paper & model structures
