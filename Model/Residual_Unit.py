@@ -4,8 +4,8 @@ from tensorflow.keras.layers import BatchNormalization, Conv2D, Activation, Add
 Residual Unit is implemented above proposed Residual Block
 input >> BN >> ReLU >> Conv2DLayer(1,1)
       >> BN >> ReLU >> Conv2DLayer(3,3)
-      >> BN >> ReLU >> Conv2DLayer(1,1)
-      >> identify >> output
+      >> BN >> ReLU >> Conv2DLayer(1,1) + identify
+      >> output
 """
 
 def Residual_Unit(input, in_channel, out_channel, kernel_size=(3, 3), stride=1):
