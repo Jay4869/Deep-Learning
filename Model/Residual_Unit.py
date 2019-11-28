@@ -8,7 +8,7 @@ input >> BN >> ReLU >> Conv2DLayer(1,1)
       >> output
 """
 
-def Residual_Unit(input, in_channel, out_channel, kernel_size=(3, 3), stride=1):
+def Residual_Unit(input, in_channel, out_channel, stride=1):
 
     """
     :param input: The input of the Residual_Unit. Should be a 4D array like (batch_num, img_len, img_len, channel_num)
@@ -24,7 +24,7 @@ def Residual_Unit(input, in_channel, out_channel, kernel_size=(3, 3), stride=1):
 
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = Conv2D(in_channel, kernel_size, padding='same', strides=stride)(x)
+    x = Conv2D(in_channel, (3, 3), padding='same', strides=stride)(x)
 
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
