@@ -1,4 +1,7 @@
-from tensorflow.keras.layers import BatchNormalization, Conv2D, Activation, Add
+from tensorflow.keras.layers import BatchNormalization
+from tensorflow.keras.layers import Conv2D
+from tensorflow.keras.layers import Activation
+from tensorflow.keras.layers import Add
 
 """
 Residual Unit is implemented above proposed Residual Block
@@ -18,6 +21,10 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
     :param stride: Integer. The number of pixels to move between 2 neighboring receptive fields.
     """
 
+    # initialize as the input (identity) data
+    shortcut = input
+
+    # RestNet module
     x = BatchNormalization()(input)
     x = Activation('relu')(x)
     x = Conv2D(in_channel, (1, 1))(x)
@@ -30,7 +37,10 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
     x = Activation('relu')(x)
     x = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(x)
 
-    x = Add()([x, input])
+    # reduce the identity size
+    shortcut = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(shortcut)
+
+    x = Add()([x, shortcut])
 
     return x
 
