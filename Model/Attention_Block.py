@@ -66,10 +66,10 @@ def Attention_Block(input, in_channel, out_channel, encoder_depth=1):
     ## output
     x = Conv2D(in_channel, (1, 1))(x)
     x = Conv2D(in_channel, (1, 1))(x)
-    x = Activation('sigmoid')(x)
+    soft_mask_output = Activation('sigmoid')(x)
 
     # Attention: (1 + soft_mask_output) * Trunck_output
-    soft_mask_output = Lambda(lambda x: x + 1)(x)
+    soft_mask_output = Lambda(lambda x: x + 1)(soft_mask_output)
     output = Multiply()([soft_mask_output, Trunck_output])  #
 
     # Last Residual Block
