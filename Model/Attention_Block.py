@@ -1,4 +1,3 @@
-from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.layers import MaxPooling2D
@@ -11,70 +10,80 @@ from .Residual_Unit import Residual_Unit
 """
 Attention_Block
 input >> Max Pooling >> Residual Block (p)
-      >> Soft Mask Branch * Trunk Branch + identity
+      >> (1 + Soft Mask Branch) * Trunk Branch
       >> Residual Block (p)
       >> output
+      
+Soft Mask Branch
+input >> down sampling >> skip connections >> down sampling
+      >> up sampling >> skip connections >> up sampling
+      >> add skip connections
+      >> conv(1,1) >> conv(1,1) >> sigmoid
 """
 
-def Attention_Block(input, in_channel, out_channel, encoder_depth=1):
+def Attention_Block(input):
 
     """
     :param input: The input of the Residual_Unit. Should be a 4D array like (batch_num, img_len, img_len, channel_num)
     :param in_channel: The 4-th dimension (channel number) of input matrix. For example, in_channel=3 means the input contains 3 channels.
-    :param out_channel: The 4-th dimension (channel number) of output matrix. For example, out_channel=5 means the output contains 5 channels (feature maps).
     """
 
     # initial Attention Module parameters
     p = 1
     t = 2
     r = 1
-    skip_connections = []
+    # calculate input and output channel based on previous layers
+    out_channel = input.shape[-1]
+    in_channel = out_channel // 4
 
     # pre-activation Residual Unit
     for i in range(p):
-        x = Residual_Unit(input, in_channel // 4, out_channel)
+        x = Residual_Unit(input, in_channel, out_channel)
 
     # Trunk Branch
     for i in range(t):
-        Trunck_output = Residual_Unit(x, in_channel // 4, out_channel)
+        Trunck_output = Residual_Unit(x, in_channel, out_channel)
 
     # Soft Mask Branch
-    ## two times down sampling
+    ## 1st down sampling
     x = MaxPooling2D(padding='same')(x)
     for i in range(r):
-        x = Residual_Unit(x, in_channel // 4, out_channel)
+        x = Residual_Unit(x, in_channel, out_channel)
 
-    ## skip connections
-    skip_connections = Residual_Unit(x, in_channel // 4, out_channel)
+    if x.shape[0] >= 8 and x.shape[0] % 4 == 0:
+        ## skip connections
+        skip_connections = Residual_Unit(x, in_channel, out_channel)
 
-    x = MaxPooling2D(padding='same')(x)
+        ## 2rd down sampling
+        x = MaxPooling2D(padding='same')(x)
+        for i in range(r):
+            x = Residual_Unit(x, in_channel, out_channel)
+
+        ## 1st up sampling
+        for i in range(r):
+            x = Residual_Unit(x, in_channel, out_channel)
+        x = UpSampling2D()(x)
+
+        # skip connections
+        x = Add()([x, skip_connections])
+
+    ## 2rd up samplping
     for i in range(r):
-        x = Residual_Unit(x, in_channel // 4, out_channel)
-
-    ## two times up sampling
-    for i in range(r):
-        x = Residual_Unit(x, in_channel // 4, out_channel)
-    x = UpSampling2D()(x)
-
-    ## skip connections
-    x = Add()([x, skip_connections])
-
-    for i in range(r):
-        x = Residual_Unit(x, in_channel // 4, out_channel)
+        x = Residual_Unit(x, in_channel, out_channel)
     x = UpSampling2D()(x)
 
     ## output
-    x = Conv2D(in_channel, (1, 1))(x)
-    x = Conv2D(in_channel, (1, 1))(x)
+    x = Conv2D(out_channel, (1, 1))(x)
+    x = Conv2D(out_channel, (1, 1))(x)
     soft_mask_output = Activation('sigmoid')(x)
 
     # Attention: (1 + soft_mask_output) * Trunck_output
     soft_mask_output = Lambda(lambda x: x + 1)(soft_mask_output)
-    output = Multiply()([soft_mask_output, Trunck_output])  #
+    output = Multiply()([soft_mask_output, Trunck_output])
 
     # Last Residual Block
     for i in range(p):
-        output = Residual_Unit(output, in_channel // 4, out_channel)
+        output = Residual_Unit(output, in_channel, out_channel)
 
     return output
 
