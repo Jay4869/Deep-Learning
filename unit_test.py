@@ -3,6 +3,7 @@ import numpy as np
 import tensorflow as tf
 from Model import Residual_Unit
 from Model import Attention_Block
+from Model import AttentionResNet56
 
 class MyTestCase(unittest.TestCase):
 
@@ -12,10 +13,24 @@ class MyTestCase(unittest.TestCase):
         output = Residual_Unit(self.image, 64, 256)
         self.assertEqual(output.shape, [1,224,224,256])
 
+    def test_Residual_Unit2(self):
+        output = Residual_Unit(self.image, 64, 256, stride=2)
+        self.assertEqual(output.shape, [1,112,112,256])
 
     def test_Attention_Block(self):
-        output = Attention_Block(self.image, 256, 256)
-        self.assertEqual(output.shape, [1,224,224,256])
+        image = tf.random.normal(shape=[1,14,14,256])
+        output = Attention_Block(image)
+        self.assertEqual(output.shape, [1,14,14,256])
+
+    def test_Attention_Block2(self):
+        output = Residual_Unit(self.image, 64, 256, stride=2)
+        output = Attention_Block(output)
+        self.assertEqual(output.shape, [1,112,112,256])
+
+    def test_AttentionResNet56(self):
+        output = AttentionResNet56(self.image, in_channel=64, kernel_size=7, n_classes=10, regularization=0.01)
+        self.assertEqual(output.shape, [1,10])
+
 
 if __name__ == '__main__':
     unittest.main()
