@@ -17,7 +17,6 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
     :param input: The input of the Residual_Unit. Should be a 4D array like (batch_num, img_len, img_len, channel_num)
     :param in_channel: The 4-th dimension (channel number) of input matrix. For example, in_channel=3 means the input contains 3 channels.
     :param out_channel: The 4-th dimension (channel number) of output matrix. For example, out_channel=5 means the output contains 5 channels (feature maps).
-    :param kernel_size: the shape of the kernel. For example, default kernel_size = 3 means you have a 3*3 kernel.
     :param stride: Integer. The number of pixels to move between 2 neighboring receptive fields.
     """
 
@@ -35,7 +34,7 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
 
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(x)
+    x = Conv2D(out_channel, (1, 1), padding='same')(x)
 
     # reduce the identity size
     shortcut = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(shortcut)
