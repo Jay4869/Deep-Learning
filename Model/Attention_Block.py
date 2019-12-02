@@ -50,7 +50,7 @@ def Attention_Block(input):
     for i in range(r):
         x = Residual_Unit(x, in_channel, out_channel)
 
-    if x.shape[0] >= 8 and x.shape[0] % 4 == 0:
+    if x.shape[1] > 7 and x.shape[1] % 4 == 0:
         ## skip connections
         skip_connections = Residual_Unit(x, in_channel, out_channel)
 
