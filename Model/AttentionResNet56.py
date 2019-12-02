@@ -13,7 +13,7 @@ from .Residual_Unit import Residual_Unit
 from .Attention_Block import Attention_Block
 
 
-def AttentionResNet56(x, in_channel=64, kernel_size=7, n_classes=None, dropout=None, regularization=0.01):
+def AttentionResNet56(shape, in_channel=64, kernel_size=7, n_classes=None, dropout=None, regularization=0.01):
 
     """
     :param in_channel: The 4-th dimension (channel number) of input weight matrix. For example, in_channel=3 means the input contains 3 channels.
@@ -23,8 +23,8 @@ def AttentionResNet56(x, in_channel=64, kernel_size=7, n_classes=None, dropout=N
     :param regularization: Float. Fraction of the input units to drop.
     """
 
-    # x = Input()
-    x = Conv2D(in_channel, kernel_size=kernel_size, strides=2, padding='same')(x)  # 112x112x64
+    input_data = Input(shape=shape)
+    x = Conv2D(in_channel, kernel_size=kernel_size, strides=2, padding='same')(input_data)  # 112x112x64
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
     x = MaxPooling2D(pool_size=3, strides=2, padding='same')(x)  # 56x56x64
@@ -49,7 +49,7 @@ def AttentionResNet56(x, in_channel=64, kernel_size=7, n_classes=None, dropout=N
         x = Dropout(dropout)(x)
 
     output = Dense(n_classes, kernel_regularizer=l2(regularization), activation='softmax')(x)
+    model = Model(input_data, output)
 
-    # model = Model(input_, output)
-    return output
+    return model
 
