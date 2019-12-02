@@ -27,10 +27,6 @@ class MyTestCase(unittest.TestCase):
         output = Attention_Block(output)
         self.assertEqual(output.shape, [1,112,112,256])
 
-    def test_AttentionResNet56(self):
-        output = AttentionResNet56(self.image, in_channel=64, kernel_size=7, n_classes=10, regularization=0.01)
-        self.assertEqual(output.shape, [1,10])
-
 
 if __name__ == '__main__':
     unittest.main()
