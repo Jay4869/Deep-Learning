@@ -21,7 +21,7 @@ input >> down sampling >> skip connections >> down sampling
       >> conv(1,1) >> conv(1,1) >> sigmoid
 """
 
-def Attention_Block(input):
+def Attention_Block(input, skip):
 
     """
     :param input: The input of the Residual_Unit. Should be a 4D array like (batch_num, img_len, img_len, channel_num)
@@ -32,40 +32,45 @@ def Attention_Block(input):
     p = 1
     t = 2
     r = 1
+    skip_connections = []
     # calculate input and output channel based on previous layers
     out_channel = input.shape[-1]
     in_channel = out_channel // 4
 
     # pre-activation Residual Unit
-    for i in range(p):
+    for _ in range(p):
         x = Residual_Unit(input, in_channel, out_channel)
 
     # Trunk Branch
-    for i in range(t):
+    for _ in range(t):
         Trunck_output = Residual_Unit(x, in_channel, out_channel)
 
     # Soft Mask Branch
     ## 1st down sampling
     x = MaxPooling2D(padding='same')(x)
-    for i in range(r):
+    for _ in range(r):
         x = Residual_Unit(x, in_channel, out_channel)
 
-    if x.shape[1] > 7 and x.shape[1] % 4 == 0:
-        ## skip connections
-        skip_connections = Residual_Unit(x, in_channel, out_channel)
+    if x.shape[1] % 4 == 0:
+        for i in range(skip-1):
+            ## skip connections
+            skip_connections.append(Residual_Unit(x, in_channel, out_channel))
 
-        ## 2rd down sampling
-        x = MaxPooling2D(padding='same')(x)
-        for i in range(r):
-            x = Residual_Unit(x, in_channel, out_channel)
+            ## 2rd down sampling
+            x = MaxPooling2D(padding='same')(x)
+            for _ in range(r):
+                x = Residual_Unit(x, in_channel, out_channel)
 
-        ## 1st up sampling
-        for i in range(r):
-            x = Residual_Unit(x, in_channel, out_channel)
-        x = UpSampling2D()(x)
+        skip_connections = list(reversed(skip_connections))
 
-        # skip connections
-        x = Add()([x, skip_connections])
+        for i in range(skip-1):
+            ## 1st up sampling
+            for _ in range(r):
+                x = Residual_Unit(x, in_channel, out_channel)
+            x = UpSampling2D()(x)
+
+            # skip connections
+            x = Add()([x, skip_connections[i]])
 
     ## 2rd up samplping
     for i in range(r):
