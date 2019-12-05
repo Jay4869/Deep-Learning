@@ -17,8 +17,8 @@ def training_cifar10(n, method):
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     x_train = x_train[:n, :, :, :]
     y_train = y_train[:n]
-    x_test = x_test[:n*0.2, :, :, :]
-    y_test = y_test[:n*0.2]
+    x_test = x_test[:(n*0.2), :, :, :]
+    y_test = y_test[:(n*0.2)]
 
     # Convert class vectors to binary class matrices.
     y_train = to_categorical(y_train, 10)
@@ -98,7 +98,9 @@ if __name__ == '__main__':
     # n = int(sys.argv)
     # method = sys.argv
 
+    print('Input Training Size')
     n = int(input())
+    print('Optimizer method (SGD, Adam)')
     method = input()
 
     model = training_cifar10(n, method)
