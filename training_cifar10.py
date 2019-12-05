@@ -11,14 +11,14 @@ from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping,TensorBoard
 
 
-def training_cifar10(n, method):
+def training_cifar10(n1, n2, method):
 
     # Load the CIFAR10 data.
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
-    x_train = x_train[:n, :, :, :]
-    y_train = y_train[:n]
-    x_test = x_test[:(n*0.2), :, :, :]
-    y_test = y_test[:(n*0.2)]
+    x_train = x_train[:n1, :, :, :]
+    y_train = y_train[:n1]
+    x_test = x_test[:n2, :, :, :]
+    y_test = y_test[:n2]
 
     # Convert class vectors to binary class matrices.
     y_train = to_categorical(y_train, 10)
@@ -95,12 +95,6 @@ def training_cifar10(n, method):
 if __name__ == '__main__':
     import sys
 
-    # n = int(sys.argv)
-    # method = sys.argv
+    n1, n2, method = sys.argv
 
-    print('Input Training Size')
-    n = int(input())
-    print('Optimizer method (SGD, Adam)')
-    method = input()
-
-    model = training_cifar10(n, method)
+    model = training_cifar10(int(n1), int(n2), method)
