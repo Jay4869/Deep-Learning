@@ -10,7 +10,7 @@ from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping,TensorBoard
 
 
-def training_cifar10(version='mini', n1, n2, method):
+def training_cifar10(version, n1, n2, method):
 
     # Load the CIFAR10 data.
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
