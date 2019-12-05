@@ -95,7 +95,10 @@ def training_cifar10(n, method):
 if __name__ == '__main__':
     import sys
 
-    n = int(sys.argv)
-    method = sys.argv
+    # n = int(sys.argv)
+    # method = sys.argv
+
+    n = int(input())
+    method = input()
 
     model = training_cifar10(n, method)
