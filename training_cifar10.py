@@ -99,4 +99,4 @@ if __name__ == '__main__':
     n2 = int(sys.argv[2])
     method = sys.argv[3]
 
-    model = training_cifar10(int(n1), int(n2), method)
+    model = training_cifar10(n1, n2, method)
