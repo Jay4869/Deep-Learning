@@ -26,6 +26,7 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     """
 
     input_data = Input(shape=shape)  # 32x32
+    print(input_data.shape)
     x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
@@ -51,14 +52,11 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     x = Residual_Unit(x, out_channel, out_channel)
     x = Residual_Unit(x, out_channel, out_channel)
 
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
     x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x1024
     x = Flatten()(x)
 
-    x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
-    if dropout:
-        x = Dropout(dropout)(x)
-
-    x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
     if dropout:
         x = Dropout(dropout)(x)
 
