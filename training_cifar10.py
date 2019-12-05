@@ -10,7 +10,7 @@ from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping,TensorBoard
 
 
-def training_cifar10(version, n1, n2, method, eps):
+def training_cifar10(version, n1, n2, method, epc):
 
     # Load the CIFAR10 data.
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -69,7 +69,7 @@ def training_cifar10(version, n1, n2, method, eps):
 
     # training model
     batch_size = 64
-    epc = eps
+    epc = epc
     start = time.time()
 
     train_generator = train_datagen.flow(x_train, y_train, batch_size=batch_size)
@@ -104,6 +104,6 @@ if __name__ == '__main__':
     n1 = int(sys.argv[2])
     n2 = int(sys.argv[3])
     method = sys.argv[4]
-    eps = int(sys.argv[5])
+    epc = int(sys.argv[5])
 
-    model = training_cifar10(version, n1, n2, method, eps)
+    model = training_cifar10(version, n1, n2, method, epc)
