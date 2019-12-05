@@ -104,5 +104,6 @@ if __name__ == '__main__':
     n1 = int(sys.argv[2])
     n2 = int(sys.argv[3])
     method = sys.argv[4]
+    eps = int(sys.argv[5])
 
-    model = training_cifar10(version, n1, n2, method)
+    model = training_cifar10(version, n1, n2, method, eps)
