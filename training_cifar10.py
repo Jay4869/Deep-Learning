@@ -1,8 +1,7 @@
 import tensorflow as tf
 import numpy as np
 import time, os, datetime
-from Model import Residual_Unit
-from Model import Attention_Block
+from Model import AttentionResNet56
 from Model import AttentionResNet56_mini
 from tensorflow.keras.datasets import cifar10
 from tensorflow.keras.utils import to_categorical
@@ -11,7 +10,7 @@ from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping,TensorBoard
 
 
-def training_cifar10(n1, n2, method):
+def training_cifar10(version='mini', n1, n2, method):
 
     # Load the CIFAR10 data.
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -45,10 +44,19 @@ def training_cifar10(n1, n2, method):
     train_datagen.fit(x_train)
     val_datagen.fit(x_train)
 
-    # build a model
-    model = AttentionResNet56_mini(shape=(32, 32, 3), in_channel=32,
-                                   kernel_size=5, skip=2, n_classes=10,
-                                   dropout=0.3, regularization=0.01)
+    if version == 'mini':
+        # build a model
+        print('Training AttentionResNet56_mini')
+        model = AttentionResNet56_mini(shape=(32, 32, 3), in_channel=32,
+                                       kernel_size=5, n_classes=10,
+                                       dropout=0.3, regularization=0.01)
+    elif version == '56':
+        print('Training AttentionResNet56')
+        model = AttentionResNet56(shape=(32, 32, 3), in_channel=32,
+                                       kernel_size=5, n_classes=10)
+    else:
+        print('Input model is not being implemented')
+
     if method == 'SGD':
         optimizer = SGD(learning_rate=0.0001, momentum=0.9, nesterov=True)
     elif method == 'Adam':
@@ -87,16 +95,14 @@ def training_cifar10(n1, n2, method):
     print('Test loss:', scores[0])
     print('Test accuracy:', scores[1])
 
-    # save model
-    model.save(log_dir + '.h5')
-
     return model
 
 if __name__ == '__main__':
     import sys
 
-    n1 = int(sys.argv[1])
-    n2 = int(sys.argv[2])
-    method = sys.argv[3]
+    version = sys.argv[1]
+    n1 = int(sys.argv[2])
+    n2 = int(sys.argv[3])
+    method = sys.argv[4]
 
-    model = training_cifar10(n1, n2, method)
+    model = training_cifar10(version, n1, n2, method)
