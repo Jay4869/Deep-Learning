@@ -91,3 +91,11 @@ def training_cifar10(n, method):
     model.save(log_dir + '.h5')
 
     return model
+
+if __name__ == '__main__':
+    import sys
+
+    n = sys.argv
+    method = sys.argv
+
+    model = training_cifar10(n, method)
