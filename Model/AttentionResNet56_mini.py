@@ -13,7 +13,7 @@ from .Residual_Unit import Residual_Unit
 from .Attention_Block import Attention_Block
 
 
-def AttentionResNet56_mini(shape, in_channel, kernel_size, skip, n_classes, dropout=None, regularization=0.01):
+def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 
     """
     :param shape: The tuple of input data.
@@ -54,10 +54,15 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, skip, n_classes, drop
     x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x1024
     x = Flatten()(x)
 
+    x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
     if dropout:
         x = Dropout(dropout)(x)
 
-    output = Dense(n_classes, kernel_regularizer=l2(regularization), activation='softmax')(x)
+    x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
+    if dropout:
+        x = Dropout(dropout)(x)
+
+    output = Dense(n_classes, activation='softmax')(x)
     model = Model(input_data, output)
 
     return model
