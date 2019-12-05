@@ -13,7 +13,7 @@ from .Residual_Unit import Residual_Unit
 from .Attention_Block import Attention_Block
 
 
-def AttentionResNet56(shape, in_channel=64, kernel_size=7, n_classes=None, dropout=None, regularization=0.01):
+def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=None):
 
     """
     :param in_channel: The 4-th dimension (channel number) of input weight matrix. For example, in_channel=3 means the input contains 3 channels.
@@ -27,22 +27,31 @@ def AttentionResNet56(shape, in_channel=64, kernel_size=7, n_classes=None, dropo
     x = Conv2D(in_channel, kernel_size=kernel_size, strides=2, padding='same')(input_data)  # 112x112x64
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = MaxPooling2D(pool_size=3, strides=2, padding='same')(x)  # 56x56x64
+    x = MaxPooling2D(pool_size=2, strides=2, padding='same')(x)  # 56x56x64
 
-    x = Residual_Unit(x, 64, 256)  # 56x56x256
-    x = Attention_Block(x)
+    out_channel = in_channel * 4
+    x = Residual_Unit(x, in_channel, out_channel)  # 16x16x128
+    x = Attention_Block(x, skip=2)
 
-    x = Residual_Unit(x, 128, 512, stride=2)  # 28x28x512
-    x = Attention_Block(x)
+    in_channel = out_channel
+    out_channel = in_channel * 2
+    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
+    x = Attention_Block(x, skip=1)
 
-    x = Residual_Unit(x, 256, 1024, stride=2)  # 14x14x1024
-    x = Attention_Block(x)
+    in_channel = out_channel
+    out_channel = in_channel * 2
+    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
+    x = Attention_Block(x, skip=1)
 
-    x = Residual_Unit(x, 512, 2048, stride=2)  # 7x7x2048
-    x = Residual_Unit(x, 512, 2048)
-    x = Residual_Unit(x, 512, 2048)
+    in_channel = out_channel
+    out_channel = in_channel * 2
+    x = Residual_Unit(x, in_channel, out_channel, stride=1)  # 4x4x1024
+    x = Residual_Unit(x, out_channel, out_channel)
+    x = Residual_Unit(x, out_channel, out_channel)
 
-    x = AveragePooling2D(pool_size=7, strides=1)(x)  # 1x1x2048
+    x = BatchNormalization()(x)
+    x = Activation('relu')(x)
+    x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x2048
     x = Flatten()(x)
 
     if dropout:
