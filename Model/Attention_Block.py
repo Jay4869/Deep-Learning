@@ -7,6 +7,10 @@ from tensorflow.keras.layers import Lambda
 from tensorflow.keras.layers import Multiply
 from .Residual_Unit import Residual_Unit
 
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True
+tf.compat.v1.Session(config=config)
+
 """
 Attention_Block
 input >> Max Pooling >> Residual Block (p)

@@ -12,6 +12,9 @@ from tensorflow.keras.models import Model
 from .Residual_Unit import Residual_Unit
 from .Attention_Block import Attention_Block
 
+config = tf.compat.v1.ConfigProto()
+config.gpu_options.allow_growth = True
+tf.compat.v1.Session(config=config)
 
 def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 
