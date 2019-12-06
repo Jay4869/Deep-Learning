@@ -41,10 +41,10 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
     x = Attention_Block(x, skip=1)
 
-    in_channel = out_channel
-    out_channel = in_channel * 2
-    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
-    x = Attention_Block(x, skip=1)
+    # in_channel = out_channel
+    # out_channel = in_channel * 2
+    # x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
+    # x = Attention_Block(x, skip=1)
 
     in_channel = out_channel
     out_channel = in_channel * 2
@@ -59,8 +59,12 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
 
     if dropout:
         x = Dropout(dropout)(x)
+    x = Dense(out_channel, kernel_regularizer=regularization, activation='Relu')(x)
+    if dropout:
+        x = Dropout(dropout)(x)
+    x = Dense(out_channel, kernel_regularizer=regularization, activation='Relu')(x)
 
-    output = Dense(n_classes, activation='softmax')(x)
+    output = Dense(n_classes, kernel_regularizer=regularization, activation='softmax')(x)
     model = Model(input_data, output)
 
     return model
