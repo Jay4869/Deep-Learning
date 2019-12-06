@@ -1,5 +1,5 @@
 import tensorflow as tf
-from tensorflow.nn.conv2d import Conv2D
+from tensorflow.keras.conv2d import Conv2D
 from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Add
