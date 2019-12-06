@@ -80,6 +80,9 @@ def training_cifar10(version, n1, n2, method, epc):
 
     train_generator = train_datagen.flow(x_train, y_train, batch_size=batch_size)
     step_size_train = train_generator.n // train_generator.batch_size
+
+    val_generator = test_datagen.flow(x_val, y_val)
+
     test_generator = test_datagen.flow(x_test, y_test, batch_size=batch_size)
     step_size_test = test_generator.n // test_generator.batch_size
 
@@ -89,7 +92,7 @@ def training_cifar10(version, n1, n2, method, epc):
     model.fit_generator(train_generator,
                         steps_per_epoch=step_size_train,
                         epochs=epc,
-                        validation_data=(x_val, y_val),
+                        validation_data=val_generator,
                         callbacks=[tensorboard_callback])
 
     end = time.time()
