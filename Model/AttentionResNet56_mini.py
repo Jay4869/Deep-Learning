@@ -59,10 +59,10 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
 
     if dropout:
         x = Dropout(dropout)(x)
-    x = Dense(out_channel, kernel_regularizer=regularization, activation='Relu')(x)
+    x = Dense(out_channel, kernel_regularizer=regularization, activation='relu')(x)
     if dropout:
         x = Dropout(dropout)(x)
-    x = Dense(out_channel, kernel_regularizer=regularization, activation='Relu')(x)
+    x = Dense(out_channel, kernel_regularizer=regularization, activation='relu')(x)
 
     output = Dense(n_classes, kernel_regularizer=regularization, activation='softmax')(x)
     model = Model(input_data, output)
