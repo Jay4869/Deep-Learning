@@ -9,9 +9,9 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping,TensorBoard
 
-config = tf.compat.v1.ConfigProto()
-config.gpu_options.allow_growth = True
-tf.compat.v1.Session(config=config)
+# config = tf.compat.v1.ConfigProto()
+# config.gpu_options.allow_growth = True
+# tf.compat.v1.Session(config=config)
 
 def training_cifar10(version, n1, n2, method, epc):
 
