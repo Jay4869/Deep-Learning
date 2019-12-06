@@ -1,7 +1,12 @@
+import tensorflow as tf
 from tensorflow.keras.layers import BatchNormalization
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Add
+
+# config = tf.compat.v1.ConfigProto()
+# config.gpu_options.allow_growth = True
+# tf.compat.v1.Session(config=config)
 
 """
 Residual Unit is implemented above proposed Residual Block
