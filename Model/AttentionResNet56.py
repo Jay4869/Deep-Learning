@@ -16,6 +16,7 @@ from .Attention_Block import Attention_Block
 def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=None):
 
     """
+    :param shape: The tuple of input data.
     :param in_channel: The 4-th dimension (channel number) of input weight matrix. For example, in_channel=3 means the input contains 3 channels.
     :param kernel_size: the shape of the kernel. For example, default kernel_size = 3 means you have a 3*3 kernel.
     :param n_classes: Integer. The number of target classes. For example, n_classes = 10 means you have 10 class labels.
@@ -23,12 +24,12 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
     :param regularization: Float. Fraction of the input units to drop.
     """
 
-    input_data = Input(shape=shape)
+    input_data = Input(shape=shape)  # 32x32
     print(input_data.shape)
-    x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x64
+    x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = MaxPooling2D(pool_size=2, padding='same')(x)  # 56x56x64
+    x = MaxPooling2D(pool_size=2, padding='same')(x)  # 16x16x32
 
     out_channel = in_channel * 4
     x = Residual_Unit(x, in_channel, out_channel)  # 16x16x128
@@ -37,7 +38,7 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
     in_channel = out_channel
     out_channel = in_channel * 2
     x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
-    x = Attention_Block(x, skip=1)
+    x = Attention_Block(x, skip=2)
 
     in_channel = out_channel
     out_channel = in_channel * 2
@@ -52,7 +53,7 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
 
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x2048
+    x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x1024
     x = Flatten()(x)
 
     if dropout:
