@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.keras.layers import Input
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.layers import BatchNormalization
-from tensorflow.keras.layers import Conv2D
+from tensorflow.nn.conv2d import Conv2D
 from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import AveragePooling2D
