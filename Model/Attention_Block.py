@@ -1,3 +1,4 @@
+import tensorflow as tf
 from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import UpSampling2D
 from tensorflow.keras.layers import MaxPooling2D
