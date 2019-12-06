@@ -19,7 +19,6 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     :param shape: The tuple of input data.
     :param in_channel: The 4-th dimension (channel number) of input weight matrix. For example, in_channel=3 means the input contains 3 channels.
     :param kernel_size: Integer. the shape of the kernel. For example, default kernel_size = 3 means you have a 3*3 kernel.
-    :param skip: Integer. The number of skip connection would like to apply.
     :param n_classes: Integer. The number of target classes. For example, n_classes = 10 means you have 10 class labels.
     :param dropout: Float between 0 and 1. Fraction of the input units to drop.
     :param regularization: Float. Fraction of the input units to drop.
@@ -41,10 +40,10 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
     x = Attention_Block(x, skip=1)
 
-    # in_channel = out_channel
-    # out_channel = in_channel * 2
-    # x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
-    # x = Attention_Block(x, skip=1)
+    in_channel = out_channel
+    out_channel = in_channel * 2
+    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
+    x = Attention_Block(x, skip=1)
 
     in_channel = out_channel
     out_channel = in_channel * 2
