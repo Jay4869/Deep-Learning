@@ -19,8 +19,8 @@ def training_cifar10(version, n1, n2, method, epc):
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
     x_train = x_train[:n1, :, :, :]
     y_train = y_train[:n1]
-    x_val = x_train[-1000:, :, :, :]
-    y_val = y_train[-1000:]
+    x_val = x_train[-5000:, :, :, :]
+    y_val = y_train[-5000:]
     x_test = x_test[:n2, :, :, :]
     y_test = y_test[:n2]
 
