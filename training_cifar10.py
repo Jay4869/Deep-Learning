@@ -115,3 +115,4 @@ if __name__ == '__main__':
     epc = int(sys.argv[5])
 
     model = training_cifar10(version, n1, n2, method, epc)
+    model.save('Model_4202_Dense.h5')  # 0.7418
