@@ -75,7 +75,7 @@ def training_cifar10(version, n1, n2, method, epc):
     model.compile(optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # training model
-    batch_size = 128
+    batch_size = 512
     epc = epc
     start = time.time()
 
