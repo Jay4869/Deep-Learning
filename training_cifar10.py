@@ -53,7 +53,7 @@ def training_cifar10(version, n1, n2, method, epc):
     if version == 'mini':
         # build a model
         print('Training AttentionResNet56_mini')
-        model = AttentionResNet56_mini(shape=(32, 32, 3), in_channel=32,
+        model = AttentionResNet56_mini(shape=(32, 32, 3), in_channel=64,
                                        kernel_size=5, n_classes=10,
                                        dropout=0.4, regularization=0.01)
     elif version == '56':
@@ -117,4 +117,4 @@ if __name__ == '__main__':
     epc = int(sys.argv[5])
 
     model = training_cifar10(version, n1, n2, method, epc)
-    model.save('Model_4202_Dense.h5')  # 0.7418
+    model.save('Model56_paper.h5')  # 0.7418
