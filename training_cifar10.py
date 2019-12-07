@@ -47,6 +47,7 @@ def training_cifar10(version, n1, n2, method, epc):
 
     # compute quantities required for feature normalization
     train_datagen.fit(x_train)
+    test_datagen.fit(x_val)
     test_datagen.fit(x_test)
 
     if version == 'mini':
@@ -74,7 +75,7 @@ def training_cifar10(version, n1, n2, method, epc):
     model.compile(optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
     # training model
-    batch_size = 64
+    batch_size = 128
     epc = epc
     start = time.time()
 
@@ -82,9 +83,7 @@ def training_cifar10(version, n1, n2, method, epc):
     step_size_train = train_generator.n // train_generator.batch_size
 
     val_generator = test_datagen.flow(x_val, y_val)
-
     test_generator = test_datagen.flow(x_test, y_test, batch_size=batch_size)
-    step_size_test = test_generator.n // test_generator.batch_size
 
     log_dir = 'Logs/' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
@@ -99,9 +98,12 @@ def training_cifar10(version, n1, n2, method, epc):
     print("Time taken by above cell is {}.".format((end - start) / 60))
 
     # evaluation
-    scores = model.evaluate(test_generator, steps=step_size_test)
-    print('Test loss:', scores[0])
-    print('Test accuracy:', scores[1])
+    val_scores = model.evaluate_generator(val_generator, verbose=0)
+    test_scores = model.evaluate_generator(test_generator, verbose=0)
+    print('validation loss:', val_scores[0])
+    print('validation accuracy:', val_scores[1])
+    print('Test loss:', test_scores[0])
+    print('Test accuracy:', test_scores[1])
 
     return model
 
