@@ -27,8 +27,6 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
 
     # initialize as the input (identity) data
     shortcut = input
-    in_channel = int(in_channel)
-    out_channel = int(out_channel)
 
     # RestNet module
     x = BatchNormalization()(input)
