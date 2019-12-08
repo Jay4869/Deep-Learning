@@ -34,6 +34,7 @@ def Attention_Block(input, skip):
     """
 
     # initial Attention Module parameters
+    input = int(input)
     p = 1
     t = 2
     r = 1
