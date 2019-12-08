@@ -26,7 +26,6 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
     """
 
     # initialize as the input (identity) data
-    input = int(input)
     shortcut = input
 
     # RestNet module
