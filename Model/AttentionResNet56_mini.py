@@ -29,7 +29,6 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     """
 
     input_data = Input(shape=shape)  # 32x32
-    print(input_data.shape)
     x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
