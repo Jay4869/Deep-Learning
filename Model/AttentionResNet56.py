@@ -23,6 +23,7 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
     :param dropout: Float between 0 and 1. Fraction of the input units to drop.
     :param regularization: Float. Fraction of the input units to drop.
     """
+    in_channel = int(in_channel)
 
     input_data = Input(shape=shape)  # 32x32
     x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x64

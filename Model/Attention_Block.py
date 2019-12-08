@@ -39,8 +39,8 @@ def Attention_Block(input, skip):
     r = 1
     skip_connections = []
     # calculate input and output channel based on previous layers
-    out_channel = input.shape[-1]
-    in_channel = out_channel // 4
+    out_channel = int(input.shape[-1])
+    in_channel = int(out_channel // 4)
 
     # pre-activation Residual Unit
     for _ in range(p):
