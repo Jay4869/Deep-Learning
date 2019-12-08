@@ -53,13 +53,13 @@ def training_cifar10(version, n1, n2, method, epc):
     if version == 'mini':
         # build a model
         print('Training AttentionResNet56_mini')
-        model = AttentionResNet56_mini(shape=(32, 32, 3), in_channel=64,
+        model = AttentionResNet56_mini(shape=(32, 32, 3), in_channel=32,
                                        kernel_size=5, n_classes=10,
                                        dropout=0.4, regularization=0.01)
     elif version == '56':
         print('Training AttentionResNet56')
-        model = AttentionResNet56(shape=(32, 32, 3), in_channel=32,
-                                  kernel_size=5, n_classes=10,
+        model = AttentionResNet56(shape=(32, 32, 3), in_channel=64,
+                                  kernel_size=7, n_classes=10,
                                   dropout=0.4, regularization=0.01)
     else:
         print('Input model is not being implemented')
