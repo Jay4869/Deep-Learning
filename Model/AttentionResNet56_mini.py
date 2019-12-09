@@ -39,7 +39,7 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     x = Attention_Block(x, skip=2)
 
     in_channel = out_channel // 2
-    out_channel = in_channel * 2
+    out_channel = in_channel * 4
     x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
     x = Attention_Block(x, skip=1)
 
@@ -49,7 +49,7 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     # x = Attention_Block(x, skip=1)
 
     in_channel = out_channel // 2
-    out_channel = in_channel * 2
+    out_channel = in_channel * 4
     x = Residual_Unit(x, in_channel, out_channel, stride=1)  # 4x4x1024
     x = Residual_Unit(x, out_channel, out_channel)
     x = Residual_Unit(x, out_channel, out_channel)
