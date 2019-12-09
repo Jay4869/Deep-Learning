@@ -28,7 +28,7 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     :param regularization: Float. Fraction of the input units to drop.
     """
 
-    input_data = Input(shape=shape)  # 32x32
+    input_data = Input(shape=shape)  # 32x32x32
     x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
     x = BatchNormalization()(x)
     x = Activation('relu')(x)

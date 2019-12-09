@@ -19,12 +19,12 @@ class MyTestCase(unittest.TestCase):
 
     def test_Attention_Block(self):
         image = tf.random.normal(shape=[1,14,14,256])
-        output = Attention_Block(image)
+        output = Attention_Block(image, skip=1)
         self.assertEqual(output.shape, [1,14,14,256])
 
     def test_Attention_Block2(self):
         output = Residual_Unit(self.image, 64, 256, stride=2)
-        output = Attention_Block(output)
+        output = Attention_Block(output, skip=2)
         self.assertEqual(output.shape, [1,112,112,256])
 
 
