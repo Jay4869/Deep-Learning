@@ -43,8 +43,8 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
     x = Attention_Block(x, skip=1)
 
-    # in_channel = out_channel
-    # out_channel = in_channel * 2
+    # in_channel = out_channel // 2
+    # out_channel = in_channel * 4
     # x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
     # x = Attention_Block(x, skip=1)
 
@@ -59,14 +59,12 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x1024
     x = Flatten()(x)
 
-    # if dropout:
-    #     x = Dropout(dropout)(x)
-    # x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
-    # if dropout:
-    #     x = Dropout(dropout)(x)
-    # x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
+    if dropout:
+        x = Dropout(dropout)(x)
+    x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x))
+    x = Dense(out_channel, kernel_regularizer=l2(regularization), activation='relu')(x)
 
-    output = Dense(n_classes, kernel_regularizer=l2(regularization), activation='softmax')(x)
+    output = Dense(n_classes, activation='softmax')(x)
     model = Model(input_data, output)
 
     return model
