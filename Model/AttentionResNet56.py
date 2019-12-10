@@ -13,10 +13,6 @@ from tensorflow.keras.models import Model
 from .Residual_Unit import Residual_Unit
 from .Attention_Block import Attention_Block
 
-# config = tf.compat.v1.ConfigProto()
-# config.gpu_options.allow_growth = True
-# tf.compat.v1.Session(config=config)
-
 def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 
     """
@@ -29,36 +25,33 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
     """
 
     input_data = Input(shape=shape)  # 32x32x3
-    x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x64
+    x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
-    x = MaxPooling2D(pool_size=2, padding='same')(x)  # 16x16x64
+    x = MaxPooling2D(pool_size=2, padding='same')(x)  # 16x16x32
 
     out_channel = in_channel * 4  # 256
-    x = Residual_Unit(x, in_channel, out_channel)  # 16x16x256
+    x = Residual_Unit(x, in_channel, out_channel)  # 16x16x128
     x = Attention_Block(x, skip=2)
 
     in_channel = out_channel // 2  # 128
     out_channel = in_channel * 4  # 512
-    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x512
+    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
     x = Attention_Block(x, skip=1)
 
     in_channel = out_channel // 2  # 256
     out_channel = in_channel * 4  # 1024
-    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x1024
-    x = Attention_Block(x, skip=0)
+    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
+    x = Attention_Block(x, skip=1)
 
     in_channel = out_channel // 2  # 512
     out_channel = in_channel * 4  # 2048
-    x = Residual_Unit(x, in_channel, out_channel, stride=1)  # 4x4x2048
-    x = Residual_Unit(x, in_channel, out_channel)
-    x = Residual_Unit(x, in_channel, out_channel)
+    x = Residual_Unit(x, in_channel, out_channel, stride=1)  # 4x4x1024
+    x = Residual_Unit(x, in_channel, out_channel)  # 4x4x1024
+    x = Residual_Unit(x, in_channel, out_channel)  # 4x4x1024
 
     x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x1024
     x = Flatten()(x)
-
-    # if dropout:
-    #     x = Dropout(dropout)(x)
 
     output = Dense(n_classes, kernel_regularizer=l2(regularization), activation='softmax')(x)
     model = Model(input_data, output)
