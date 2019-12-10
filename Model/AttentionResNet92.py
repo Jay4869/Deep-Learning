@@ -13,7 +13,7 @@ from tensorflow.keras.models import Model
 from .Residual_Unit import Residual_Unit
 from .Attention_Block import Attention_Block
 
-def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
+def AttentionResNet92(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 
     """
     :param shape: The tuple of input data.
@@ -38,20 +38,26 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
     out_channel = in_channel * 4  # 256
     x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 8x8x256
     x = Attention_Block(x, skip=1)
+    x = Attention_Block(x, skip=1)
 
     in_channel = out_channel // 2  # 128
     out_channel = in_channel * 4  # 512
-    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 4x4x512
+    x = Residual_Unit(x, in_channel, out_channel, stride=2)  # 512
+    x = Attention_Block(x, skip=1)
+    x = Attention_Block(x, skip=1)
     x = Attention_Block(x, skip=1)
 
     in_channel = out_channel // 2  # 256
     out_channel = in_channel * 4  # 1024
     x = Residual_Unit(x, in_channel, out_channel, stride=1)  # 4x4x1024
-    x = Residual_Unit(x, in_channel, out_channel)  # 4x4x1024
-    x = Residual_Unit(x, in_channel, out_channel)  # 4x4x1024
+    x = Residual_Unit(x, in_channel, out_channel)
+    x = Residual_Unit(x, in_channel, out_channel)
 
     x = AveragePooling2D(pool_size=4, strides=1)(x)  # 1x1x1024
     x = Flatten()(x)
+
+    if dropout:
+        x = Dropout(dropout)(x)
 
     output = Dense(n_classes, kernel_regularizer=l2(regularization), activation='softmax')(x)
     model = Model(input_data, output)
