@@ -4,10 +4,6 @@ from tensorflow.keras.layers import Conv2D
 from tensorflow.keras.layers import Activation
 from tensorflow.keras.layers import Add
 
-# config = tf.compat.v1.ConfigProto()
-# config.gpu_options.allow_growth = True
-# tf.compat.v1.Session(config=config)
-
 """
 Residual Unit is implemented above proposed Residual Block
 input >> BN >> ReLU >> Conv2DLayer(1,1)
