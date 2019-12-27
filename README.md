@@ -1,5 +1,3 @@
-e4040-2019Fall-Project-ZZZZ-jl5246-xz2735
-
 # Residual Attention Network for Image Classification
 
 ##  Introduction
