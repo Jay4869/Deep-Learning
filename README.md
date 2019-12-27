@@ -1,9 +1,14 @@
 # Residual Attention Network for Image Classification
+Author: Jie Li, Xiaofan Zhang, Zhaoyang Wang
 
 ##  Introduction
 This repo contains our re-implementation of Residual Attention Network based on the paper [Residual Attention Network for Image Classification](https://arxiv.org/pdf/1704.06904.pdf).
 
-The Residual Attention Network, a convolutional neural network adopts mixed attention mechanism into very deep structure for image classification task. The Residual Attention Network can incorporate with state-of-art feed forward network architecture, and is built by stacking Attention Modules, which generate attention-aware features from low resolution and mapping back to orginal feature maps. Rather than compress an entire image into a static representation, the Attention Module allows for salient features to dynamically come to the forefront as needed.
+Convolutional Neural Network (CNN) is the most popular neural netowrk model being used for image classification problem which can help break images and extracts the high-level features. Rather than compress an entire image into a static representation, the Attention Module allows for salient features to dynamically come to the forefront as needed.
+
+The Residual Attention Network, a convolutional neural network adopts mixed attention mechanism into very deep structure for image classification task. The Residual Attention Network can incorporate with state-of-art feed forward network architecture, and is built by stacking Attention Modules, which generate attention-aware features from low resolution and mapping back to orginal feature maps.
+
+In our task, we propose a new architecture of Residual Attention Network different from original paper for image classification. First, we follow the original paper to re-construct and train Residual Attention Network on CIFAR-10 dataset. Then, we experiment different architectures and optimizers to improve our network. Lastly, we visualize the model performance in training, validation accuracy and training time by Tensorbaord to compare our model with the original model from paper.
 
 ## Dataset
 In our task, We are using **CIFAR-10** and **CIFAR-100** which consist of 50,000 training set and 10,000 test set with 32 x 32 RGB images, representing 10/100 different image labels. We apply the data augmentation technique that generate image rotation, shifting, and horizontal flip, with the per-pixel RGB mean value subtracted.
