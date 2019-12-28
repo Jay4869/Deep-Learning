@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow.keras.layers import Input
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.layers import BatchNormalization
@@ -10,6 +9,7 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Model
+
 from Module import Residual_Unit_pre
 
 def ResNet(shape, filters, kernel_size, n_classes, dropout=None, regularization=None):
