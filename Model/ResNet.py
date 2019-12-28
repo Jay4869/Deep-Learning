@@ -29,15 +29,15 @@ def ResNet(shape, filters, kernel_size, n_classes, dropout=None, regularization=
     for _ in range(2):
         x = Residual_Unit_pre(x, 32)
 
-    x = MaxPooling2D(pool_size=2)
+    x = MaxPooling2D(pool_size=2)(x)
     for _ in range(2):
         x = Residual_Unit_pre(x, 64)
 
-    x = MaxPooling2D(pool_size=2)
+    x = MaxPooling2D(pool_size=2)(x)
     for _ in range(2):
         x = Residual_Unit_pre(x, 128)
 
-    x = MaxPooling2D(pool_size=2)
+    x = MaxPooling2D(pool_size=2)(x)
     for _ in range(2):
         x = Residual_Unit_pre(x, 256)
 
