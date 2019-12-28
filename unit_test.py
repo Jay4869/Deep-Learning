@@ -2,6 +2,7 @@ import unittest
 import numpy as np
 import tensorflow as tf
 from Model import Residual_Unit
+from Model import Residual_Unit_new
 from Model import Attention_Block
 from Model import Attention_Block_NAL
 
@@ -35,6 +36,9 @@ class MyTestCase(unittest.TestCase):
         output = Attention_Block_NAL(output, skip=2)
         self.assertEqual(output.shape, [1,112,112,256])
 
+    def test_Residual_Unit_new(self):
+        output = Residual_Unit_new(self.image, 64, 256)
+        self.assertEqual(output.shape, [1,56,56,256])
 
 if __name__ == '__main__':
     unittest.main()
