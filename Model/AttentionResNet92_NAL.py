@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow.keras.layers import Input
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.layers import BatchNormalization
@@ -10,8 +9,9 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Model
-from .Residual_Unit import Residual_Unit
-from .Attention_Block_NAL import Attention_Block_NAL
+
+from Module import Residual_Unit
+from Module import Attention_Block_NAL
 
 def AttentionResNet92_NAL(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 

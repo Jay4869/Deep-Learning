@@ -9,8 +9,9 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Model
-from .Module import Residual_Unit
-from .Module import Attention_Block
+
+from Module import Residual_Unit
+from Module import Attention_Block
 
 def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 
