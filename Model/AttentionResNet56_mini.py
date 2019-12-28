@@ -1,4 +1,3 @@
-import tensorflow as tf
 from tensorflow.keras.layers import Input
 from tensorflow.keras.regularizers import l2
 from tensorflow.keras.layers import BatchNormalization
@@ -10,12 +9,8 @@ from tensorflow.keras.layers import Flatten
 from tensorflow.keras.layers import Dropout
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.models import Model
-from .Residual_Unit import Residual_Unit
-from .Attention_Block import Attention_Block
-
-# config = tf.compat.v1.ConfigProto()
-# config.gpu_options.allow_growth = True
-# tf.compat.v1.Session(config=config)
+from .Module import Residual_Unit
+from .Module import Attention_Block
 
 def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=None, regularization=0.01):
 
@@ -28,7 +23,7 @@ def AttentionResNet56_mini(shape, in_channel, kernel_size, n_classes, dropout=No
     :param regularization: Float. Fraction of the input units to drop.
     """
 
-    input_data = Input(shape=shape)  # 32x32x32
+    input_data = Input(shape=shape)  # 32x32x3
     x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
     x = BatchNormalization()(x)
     x = Activation('relu')(x)
