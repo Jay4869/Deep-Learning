@@ -22,6 +22,7 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
 
     # initialize as the input (identity) data
     shortcut = input
+    shortcut = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(shortcut)
 
     # RestNet module
     x = BatchNormalization()(input)
@@ -36,9 +37,7 @@ def Residual_Unit(input, in_channel, out_channel, stride=1):
     x = Activation('relu')(x)
     x = Conv2D(out_channel, (1, 1), padding='same')(x)
 
-    # reduce the identity size
-    shortcut = Conv2D(out_channel, (1, 1), padding='same', strides=stride)(shortcut)
-
+    # identity
     x = Add()([x, shortcut])
 
     return x

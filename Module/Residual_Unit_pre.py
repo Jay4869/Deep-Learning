@@ -10,7 +10,7 @@ input >> BN >> ReLU >> Conv2DLayer(3,3)
       >> output
 """
 
-def Residual_Unit_pre(input, out_channel):
+def Residual_Unit_pre(input, out_channel, stride=1):
 
     """
     :param input: The input of the Residual_Unit. Should be a 4D array like (batch_num, img_len, img_len, channel_num)
