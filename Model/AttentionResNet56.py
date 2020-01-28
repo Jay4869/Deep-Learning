@@ -26,8 +26,6 @@ def AttentionResNet56(shape, in_channel, kernel_size, n_classes, dropout=None, r
 
     input_data = Input(shape=shape)  # 32x32x3
     x = Conv2D(in_channel, kernel_size=kernel_size, padding='same')(input_data)  # 32x32x32
-    # x = BatchNormalization()(x)
-    # x = Activation('relu')(x)
     x = MaxPooling2D(pool_size=2, padding='same')(x)  # 16x16x32
 
     out_channel = in_channel * 4  # 256
