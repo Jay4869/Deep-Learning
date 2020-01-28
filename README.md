@@ -1,5 +1,5 @@
 # Residual Attention Network for Image Classification
-Author: Jie Li, Xiaofan Zhang, Zhaoyang Wang
+###### Author: Jie Li, Xiaofan Zhang, Zhaoyang Wang
 
 ##  Introduction
 This repo contains our re-implementation of Residual Attention Network based on the paper [Residual Attention Network for Image Classification](https://arxiv.org/pdf/1704.06904.pdf).
