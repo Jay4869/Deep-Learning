@@ -48,6 +48,7 @@ Also, we evaluate the Attention-56 and Attention-92 Networks on CIFAR-10 by vali
 * Tensorflow-gpu 2.0
 * Tensorboard 2.0.2
 * Google Cloud (NVIDIA Tesla P100)
+* Reference: https://ecbm4040.bitbucket.io/2019_fall/EnvSetup/gcp.html
 
 ## Usage
 ### Quick Training Attention Model
