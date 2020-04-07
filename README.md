@@ -52,15 +52,15 @@ Also, we evaluate the Attention-56 and Attention-92 Networks on CIFAR-10 by vali
 ## Usage
 ### Quick Training Attention Model
 
-Call `Training_model.py` and input `model_version (56/92)`, `training_size`, `test_size`, `batch_size` and `epoch`. After training processing, it provides the model performance such as validation/testing accuracy, validation/testing loss, and runing time. Also, the model log will be stored into `Logs/` folder, named by excuation time. 
+Call `training_cifar10.py` and input `model_version (56/92)`, `training_size`, `test_size`, `batch_size` and `epoch`. After training processing, it provides the model performance such as validation/testing accuracy, validation/testing loss, and runing time. Also, the model log will be stored into `Logs/` folder, named by excuation time. 
 
 Example: `$ python Training_model.py 56 1000 1000 64 5`
 
 ### Customize Training Attention Model
 
-`Module/` contains the core Modules scripts: Residual Unit and Attention Block
+`Module/`: contains the core Modules scripts: Residual Unit and Attention Block
 
-`Model/` contains the Residual Attention Network structure: 56/92 layers
+`Model/`: contains the Residual Attention Network structure: 56/92 layers
 
 Jupyter notebook version is provided to you that contain the details of our development, and help you reporoduce the results above. `Training_56.ipynb` and `Training_92.ipynb` generate all work for Attention-56 and Attention-92 respectively.
 
