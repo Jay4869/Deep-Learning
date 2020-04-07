@@ -62,7 +62,7 @@ Example: `$ python training_cifar10.py 56 1000 1000 64 5`
 
 `Model/`: contains the Residual Attention Network structure: 56/92 layers
 
-Jupyter notebook version is provided to you that contain the details of our development, and help you reporoduce the results above. `Training_56.ipynb` and `Training_92.ipynb` generate all work for Attention-56 and Attention-92 respectively.
+Jupyter notebook version is provided to you that contain the details of our development, and help you reporoduce the results above. `training_56.ipynb` and `training_92.ipynb` generate all work for Attention-56 and Attention-92 respectively.
 
 ### Model Performance Dashboard
 
