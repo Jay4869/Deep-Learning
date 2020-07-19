@@ -53,9 +53,7 @@ Also, we evaluate the Attention-56 and Attention-92 Networks on CIFAR-10 by vali
 ## Usage
 ### Quick Training Attention Model
 
-Call `training_cifar10.py` and input `model_version (56/92)`, `training_size`, `test_size`, `batch_size` and `epoch`. After training processing, it provides the model performance such as validation/testing accuracy, validation/testing loss, and runing time. Also, the model log will be stored into `Logs/` folder, named by excuation time. 
-
-Example: `$ python training_cifar10.py 56 1000 1000 64 5`
+Execute `training_cifar10.py`. It's training ResNet56 with Attention by default, and provides the model performance such as validation/testing accuracy, validation/testing loss, and runing time. Also, the model log will be stored into `Logs/` folder, named by excuation time. 
 
 ### Customize Training Attention Model
 
