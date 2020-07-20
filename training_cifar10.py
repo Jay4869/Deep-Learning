@@ -9,11 +9,8 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.optimizers import Adam, SGD
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping,TensorBoard
 
-# config = tf.compat.v1.ConfigProto()
-# config.gpu_options.allow_growth = True
-# tf.compat.v1.Session(config=config)
 
-def training_cifar10(version, n1, n2, method, epc):
+def training_cifar10(version='56', n1=1000, n2=1000, method='Adam', epc=5):
 
     # Load the CIFAR10 data.
     (x_train, y_train), (x_test, y_test) = cifar10.load_data()
@@ -85,7 +82,7 @@ def training_cifar10(version, n1, n2, method, epc):
     val_generator = test_datagen.flow(x_val, y_val)
     test_generator = test_datagen.flow(x_test, y_test, batch_size=batch_size)
 
-    log_dir = 'Logs/' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
+    log_dir = 'Logs\\' + datetime.datetime.now().strftime('%Y%m%d-%H%M%S')
     tensorboard_callback = TensorBoard(log_dir=log_dir, histogram_freq=1)
 
     model.fit_generator(train_generator,
@@ -108,13 +105,6 @@ def training_cifar10(version, n1, n2, method, epc):
     return model
 
 if __name__ == '__main__':
-    import sys
 
-    version = sys.argv[1]
-    n1 = int(sys.argv[2])
-    n2 = int(sys.argv[3])
-    method = sys.argv[4]
-    epc = int(sys.argv[5])
-
-    model = training_cifar10(version, n1, n2, method, epc)
-    model.save('Model56_paper.h5')  # 0.7418
+    model = training_cifar10()
+    model.save(log_dir + '/Model.h5')  # 0.7418
